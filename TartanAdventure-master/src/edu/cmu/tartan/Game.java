@@ -410,6 +410,7 @@ public class Game {
                     }
 
                 }
+                break;
             // Indirect objects are secondary objects that may be used by direct objects, such as a key for a lock
             case TYPE_HASINDIRECTOBJECT:
                 switch(a) {
@@ -463,6 +464,7 @@ public class Game {
                         break;
                     }
                 }
+                break;
             // Some actions do not require an object
             case TYPE_HASNOOBJECT: {
                 switch(a) {
