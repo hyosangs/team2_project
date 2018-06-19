@@ -13,7 +13,9 @@ import edu.cmu.tartan.room.RoomExcavatable;
 import edu.cmu.tartan.room.RoomRequiredItem;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -150,7 +152,7 @@ public class Game {
             // destroyed, etc.
 
             case TYPE_HASDIRECTOBJECT:
-
+                Item val = a.directObject();
                 switch(a) {
 
                     case ActionPickUp: {
