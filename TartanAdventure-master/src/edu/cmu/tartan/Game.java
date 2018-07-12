@@ -119,7 +119,7 @@ public class Game {
                 choice = Integer.parseInt(input) - 1;
             }
             catch(Exception e) {
-                logger.log("Invalid selection.");
+                logger.log(Level.INFO,"Invalid selection.");
                 continue;
             }
             try {
@@ -129,7 +129,7 @@ public class Game {
                 break;
             }
             catch (InvalidGameException ige) {
-                logger.log("Game improperly configured, please try again.");
+                logger.log(Level.INFO,"Game improperly configured, please try again.");
             }
         }
         // Once the game has been configured, it is time to play!
@@ -161,29 +161,29 @@ public class Game {
                         Item container = null;
                         if(this.player.currentRoom().hasItem(o)) {
                             if(o instanceof Holdable) {
-                                logger.log("Taken.");
+                                logger.log(Level.INFO,"Taken.");
 
                                 this.player.currentRoom().remove(o);
                                 this.player.pickup(o);
                                 this.player.score(o.value());
                             }
                             else {
-                                logger.log("You cannot pick up this item.");
+                                logger.log(Level.INFO,"You cannot pick up this item.");
                             }
                         }
                         else if((container = containerForItem(o)) != null) {
 
-                            logger.log("Taken.");
+                            logger.log(Level.INFO,"Taken.");
                             ((Hostable)container).uninstall(o);
                             this.player.pickup(o);
                             Holdable h = (Holdable) o;
                             this.player.score( o.value());
                         }
                         else if(this.player.hasItem(o)) {
-                            logger.log("You already have that item in your inventory.");
+                            logger.log(Level.INFO,"You already have that item in your inventory.");
                         }
                         else {
-                            logger.log("I don't see that here.");
+                            logger.log(Level.INFO,"I don't see that here.");
                         }
                         break;
                     }
@@ -191,7 +191,7 @@ public class Game {
                         Item item = a.directObject();
                         if (this.player.currentRoom().hasItem(item) || this.player.hasItem(item)) {
                             if (item instanceof Destroyable) {
-                                logger.log("Smashed.");
+                                logger.log(Level.INFO,"Smashed.");
                                 ((Destroyable)item).destroy();
                                 item.setDescription("broken " + item.toString());
                                 item.setDetailDescription("broken " + item.detailDescription());
@@ -208,11 +208,11 @@ public class Game {
                                 }
                             }
                             else {
-                                logger.log("You cannot break this item.");
+                                logger.log(Level.INFO,"You cannot break this item.");
                             }
                         }
                         else {
-                            logger.log("I don't see that here.");
+                            logger.log(Level.INFO,"I don't see that here.");
                         }
                         break;
                     }
@@ -223,11 +223,11 @@ public class Game {
                                 ((Inspectable)item).inspect();
                             }
                             else {
-                                logger.log("You cannot inspect this item.");
+                                logger.log(Level.INFO,"You cannot inspect this item.");
                             }
                         }
                         else {
-                            logger.log("I don't see that here.");
+                            logger.log(Level.INFO,"I don't see that here.");
                         }
                         break;
                     }
@@ -235,18 +235,18 @@ public class Game {
                         Item item = a.directObject();
                         if(this.player.hasItem(item)) {
                             if(item instanceof Holdable) {
-                                logger.log("Dropped.");
+                                logger.log(Level.INFO,"Dropped.");
                                 this.player.drop(item);
-                                logger.log("You Dropped '" +item.description() + "' costing you "
+                                logger.log(Level.INFO,"You Dropped '" +item.description() + "' costing you "
                                         + item.value() + " points.");
                                 this.player.currentRoom().putItem(item);
                             }
                             else {
-                                logger.log("You cannot drop this item.");
+                                logger.log(Level.INFO,"You cannot drop this item.");
                             }
                         }
                         else {
-                            logger.log("You don't have that item to drop.");
+                            logger.log(Level.INFO,"You don't have that item to drop.");
                         }
                         if(this.player.currentRoom() instanceof RoomRequiredItem) {
                             RoomRequiredItem r = (RoomRequiredItem)this.player.currentRoom();
@@ -258,17 +258,17 @@ public class Game {
                         Item item = a.directObject();
                         if(this.player.hasItem(item)) {
                             if(item instanceof Chuckable) {
-                                logger.log("Thrown.");
+                                logger.log(Level.INFO,"Thrown.");
                                 ((Chuckable)item).chuck();
                                 this.player.drop(item);
                                 this.player.currentRoom().putItem(item);
                             }
                             else {
-                                logger.log("You cannot throw this item.");
+                                logger.log(Level.INFO,"You cannot throw this item.");
                             }
                         }
                         else {
-                            logger.log("You don't have that item to throw.");
+                            logger.log(Level.INFO,"You don't have that item to throw.");
                         }
                         break;
                     }
@@ -282,11 +282,11 @@ public class Game {
                                 }
                             }
                             else {
-                                logger.log("I don't know how to do that.");
+                                logger.log(Level.INFO,"I don't know how to do that.");
                             }
                         }
                         else {
-                            logger.log("I don't see that here.");
+                            logger.log(Level.INFO,"I don't see that here.");
                         }
                         break;
                     }
@@ -294,15 +294,15 @@ public class Game {
                         Item item = a.directObject();
                         if(this.player.currentRoom().hasItem(item) || this.player.hasItem(item)) {
                             if(item instanceof Startable) {
-                                logger.log("Done.");
+                                logger.log(Level.INFO,"Done.");
                                 ((Startable)item).start();
                             }
                             else {
-                                logger.log("I don't know how to do that.");
+                                logger.log(Level.INFO,"I don't know how to do that.");
                             }
                         }
                         else {
-                            logger.log("I don't see that here.");
+                            logger.log(Level.INFO,"I don't see that here.");
                         }
                         break;
 
@@ -325,11 +325,11 @@ public class Game {
                                 }
                             }
                             else {
-                                logger.log("Nothing happens.");
+                                logger.log(Level.INFO,"Nothing happens.");
                             }
                         }
                         else {
-                            logger.log("I don't see that here.");
+                            logger.log(Level.INFO,"I don't see that here.");
                         }
                         break;
                     }
@@ -339,7 +339,7 @@ public class Game {
                             RoomExcavatable curr = (RoomExcavatable) this.player.currentRoom();
                             curr.dig();
                         } else {
-                            logger.log("You are not allowed to dig here");
+                            logger.log(Level.INFO,"You are not allowed to dig here");
                         }
                         break;
                     }
@@ -356,11 +356,11 @@ public class Game {
                             }
                             else {
                                 if(item instanceof Holdable) {
-                                    logger.log("As you  shove the " + a.directObject() + " down your throat, you begin to choke.");
+                                    logger.log(Level.INFO,"As you  shove the " + a.directObject() + " down your throat, you begin to choke.");
                                     this.player.terminate();
                                 }
                                 else {
-                                    logger.log("That cannot be consumed.");
+                                    logger.log(Level.INFO,"That cannot be consumed.");
                                 }
                             }
                         }
@@ -378,11 +378,11 @@ public class Game {
                                 }
                             }
                             else {
-                                logger.log("You cannot open this.");
+                                logger.log(Level.INFO,"You cannot open this.");
                             }
                         }
                         else {
-                            logger.log("I don't see that here.");
+                            logger.log(Level.INFO,"I don't see that here.");
                         }
                         break;
                     }
@@ -396,15 +396,15 @@ public class Game {
                                     this.player.score(explode.value());
                                 }
                                 else {
-                                    logger.log("There isn't anything to blow up here.");
+                                    logger.log(Level.INFO,"There isn't anything to blow up here.");
                                 }
                             }
                             else {
-                                logger.log("That item is not an explosive.");
+                                logger.log(Level.INFO,"That item is not an explosive.");
                             }
                         }
                         else {
-                            logger.log("You do not have that item in your inventory.");
+                            logger.log(Level.INFO,"You do not have that item in your inventory.");
                         }
                         break;
                     }
@@ -418,25 +418,25 @@ public class Game {
                         Item itemToPut = a.directObject();
                         Item itemToBePutInto = a.indirectObject();
                         if(!this.player.hasItem(itemToPut)) {
-                            logger.log("You don't have that object in your inventory.");
+                            logger.log(Level.INFO,"You don't have that object in your inventory.");
                             break;
                         }
                         else if(itemToBePutInto == null) {
-                            logger.log("You must supply an indirect object.");
+                            logger.log(Level.INFO,"You must supply an indirect object.");
                             break;
                         }
                         else if(!this.player.currentRoom().hasItem(itemToBePutInto)) {
-                            logger.log("That object doesn't exist in this room.");
+                            logger.log(Level.INFO,"That object doesn't exist in this room.");
                             break;
                         }
                         else if(itemToBePutInto instanceof ItemMagicBox && !(itemToPut instanceof Valuable)) {
-                            logger.log("This item has no value--putting it in this " + itemToBePutInto + " will not score you any points.");
+                            logger.log(Level.INFO,"This item has no value--putting it in this " + itemToBePutInto + " will not score you any points.");
                         }
                         else if(!(itemToBePutInto instanceof Hostable) || !(itemToPut instanceof Installable)) {
-                            logger.log("You cannot put a " + itemToPut + " into this " + itemToBePutInto);
+                            logger.log(Level.INFO,"You cannot put a " + itemToPut + " into this " + itemToBePutInto);
                         }
                         else {
-                            logger.log("Done.");
+                            logger.log(Level.INFO,"Done.");
                             this.player.drop(itemToPut);
                             this.player.putItemInItem(itemToPut, itemToBePutInto);
                         }
@@ -446,19 +446,19 @@ public class Game {
                         Item contents = a.directObject();
                         Item container = a.indirectObject();
                         if(!this.player.currentRoom().hasItem(container)) {
-                            logger.log("I don't see that here.");
+                            logger.log(Level.INFO,"I don't see that here.");
                         }
                         else if(!(container instanceof Hostable)) {
-                            logger.log("You can't have an item inside that.");
+                            logger.log(Level.INFO,"You can't have an item inside that.");
                         }
                         else {
                             if(((Hostable)container).installedItem() == contents) {
                                 ((Hostable)container).uninstall(contents);
                                 this.player.pickup(contents);
-                                logger.log("Taken.");
+                                logger.log(Level.INFO,"Taken.");
                             }
                             else {
-                                logger.log("That item is not inside this " + container);
+                                logger.log(Level.INFO,"That item is not inside this " + container);
                             }
                         }
                         break;
@@ -480,11 +480,11 @@ public class Game {
                     case ActionViewItems:
                         Vector<Item> items = this.player.getCollectedItems();
                         if (items.size() == 0) {
-                            logger.log("You don't have any items.");
+                            logger.log(Level.INFO,"You don't have any items.");
                         }
                         else {
                             for(Item item : this.player.getCollectedItems()) {
-                                logger.log("You have a " + item.description() + ".");
+                                logger.log(Level.INFO,"You have a " + item.description() + ".");
                             }
                         }
                         break;
@@ -504,18 +504,18 @@ public class Game {
                         break;
                     }
                     case ActionError: {
-                        logger.log("I don't understand that.");
+                        logger.log(Level.INFO,"I don't understand that.");
                         break;
                     }
                     case ActionUnknown: {
-                        logger.log("I don't understand that.");
+                        logger.log(Level.INFO,"I don't understand that.");
                         break;
                     }
                 }
                 break;
             }
             default:
-                logger.log("I don't understand that");
+                logger.log(Level.INFO,"I don't understand that");
                 break;
         }
     }
@@ -538,7 +538,7 @@ public class Game {
 
                 if (input.compareTo("quit") == 0) {
                     for (GameGoal g: goals) {
-                        logger.log(g.getStatus());
+                        logger.log(Level.INFO,g.getStatus());
                     }
                     break;
                 }
@@ -561,12 +561,12 @@ public class Game {
                 }
             }
         } catch(Exception e) {
-            logger.log("I don't understand that \n\nException: \n" + e);
+            logger.log(Level.INFO,"I don't understand that \n\nException: \n" + e);
             e.printStackTrace();
             start();
         }
 
-        logger.log("Game Over");
+        logger.log(Level.INFO,"Game Over");
     }
 
     /**
@@ -574,20 +574,20 @@ public class Game {
      */
     private void winGame() {
 
-        logger.log("Congrats!");
+        logger.log(Level.INFO,"Congrats!");
 
-        logger.log("You've won the '" + gameName + "' game!\n" );
-        logger.log("- Final score: " + player.getScore());
-        logger.log("- Final inventory: ");
+        logger.log(Level.INFO,"You've won the '" + gameName + "' game!\n" );
+        logger.log(Level.INFO,"- Final score: " + player.getScore());
+        logger.log(Level.INFO,"- Final inventory: ");
         if (player.getCollectedItems().size() == 0) {
-            logger.log("You don't have any items.");
+            logger.log(Level.INFO,"You don't have any items.");
         }
         else {
             for (Item i : player.getCollectedItems()) {
-                logger.log(i.toString() + " ");
+                logger.log(Level.INFO,i.toString() + " ");
             }
         }
-        logger.log("\n");
+        logger.log(Level.INFO,"\n");
     }
 
     /**
@@ -607,39 +607,39 @@ public class Game {
     }
 
     private void status() {
-        logger.log("The current game is '" + gameName + "': " + gameDescription + "\n");
-        logger.log("- There are " + goals.size() + " goals to achieve:");
+        logger.log(Level.INFO,"The current game is '" + gameName + "': " + gameDescription + "\n");
+        logger.log(Level.INFO,"- There are " + goals.size() + " goals to achieve:");
 
         for (int i=0; i < goals.size(); i++) {
-            logger.log("  * " + (i+1)+ ": "+ goals.elementAt(i).describe() + ", status: " + goals.elementAt(i).getStatus());
+            logger.log(Level.INFO,"  * " + (i+1)+ ": "+ goals.elementAt(i).describe() + ", status: " + goals.elementAt(i).getStatus());
         }
-        logger.log("\n");
-        logger.log("- Current room:  " + player.currentRoom() + "\n");
-        logger.log("- Items in current room: ");
+        logger.log(Level.INFO,"\n");
+        logger.log(Level.INFO,"- Current room:  " + player.currentRoom() + "\n");
+        logger.log(Level.INFO,"- Items in current room: ");
         for (Item i : player.currentRoom().items) {
-            logger.log("   * " + i.toString() + " ");
+            logger.log(Level.INFO,"   * " + i.toString() + " ");
         }
-        logger.log("\n");
+        logger.log(Level.INFO,"\n");
 
-        logger.log("- Current score: " + player.getScore());
+        logger.log(Level.INFO,"- Current score: " + player.getScore());
 
-        logger.log("- Current inventory: ");
+        logger.log(Level.INFO,"- Current inventory: ");
         if (player.getCollectedItems().size() == 0) {
-            logger.log("   You don't have any items.");
+            logger.log(Level.INFO,"   You don't have any items.");
         } else {
             for (Item i : player.getCollectedItems()) {
-                logger.log("   * " + i.toString() + " ");
+                logger.log(Level.INFO,"   * " + i.toString() + " ");
             }
         }
-        logger.log("\n");
+        logger.log(Level.INFO,"\n");
 
-        logger.log("- Rooms visited: ");
+        logger.log(Level.INFO,"- Rooms visited: ");
         Vector<Room> rooms = player.getRoomsVisited();
         if (rooms.size() == 0) {
-            logger.log("You have not been to any rooms.");
+            logger.log(Level.INFO,"You have not been to any rooms.");
         } else {
             for (Room r : rooms) {
-                logger.log("  * " +r.description() + " ");
+                logger.log(Level.INFO,"  * " +r.description() + " ");
             }
         }
     }
@@ -675,12 +675,12 @@ public class Game {
     private void help() {
 
         // Credit to emacs Dunnet by Ron Schnell
-        logger.log("Welcome to TartanAdventure RPG Help." +
+        logger.log(Level.INFO,"Welcome to TartanAdventure RPG Help." +
                 "Here is some useful information (read carefully because there are one\n" +
                 "or more clues in here):\n");
 
-        logger.log("- To view your current items: type \"inventory\"\n");
-        logger.log("- You have a number of actions available:\n");
+        logger.log(Level.INFO,"- To view your current items: type \"inventory\"\n");
+        logger.log(Level.INFO,"- You have a number of actions available:\n");
 
         StringBuilder directions = new StringBuilder("Direction: go [");
         StringBuilder dirobj = new StringBuilder("Manipulate object directly: [");
@@ -703,13 +703,13 @@ public class Game {
         indirobj.append("]");
         misc.append("]");
 
-        logger.log("- "+ directions.toString() + "\n");
-        logger.log("- " + dirobj.toString() + "\n");
-        logger.log("- " + indirobj.toString() + "\n");
-        logger.log("- " +misc.toString() + "\n");
-        logger.log("- You can inspect an inspectable item by typing \"Inspect <item>\"\n");
-        logger.log("- You can quit by typing \"quit\"\n");
-        logger.log("- Good luck!\n");
+        logger.log(Level.INFO,"- "+ directions.toString() + "\n");
+        logger.log(Level.INFO,"- " + dirobj.toString() + "\n");
+        logger.log(Level.INFO,"- " + indirobj.toString() + "\n");
+        logger.log(Level.INFO,"- " +misc.toString() + "\n");
+        logger.log(Level.INFO,"- You can inspect an inspectable item by typing \"Inspect <item>\"\n");
+        logger.log(Level.INFO,"- You can quit by typing \"quit\"\n");
+        logger.log(Level.INFO,"- Good luck!\n");
 
     }
 
@@ -734,9 +734,9 @@ public class Game {
      */
     public void showIntro() {
 
-        logger.log("Welcome to Tartan Adventure (1.0), by Tartan Inc..");
-        logger.log("Game: " + gameDescription);
-        logger.log("To get help type 'help' ... let's begin\n");
+        logger.log(Level.INFO,"Welcome to Tartan Adventure (1.0), by Tartan Inc..");
+        logger.log(Level.INFO,"Game: " + gameDescription);
+        logger.log(Level.INFO,"To get help type 'help' ... let's begin\n");
     }
 
     /**
